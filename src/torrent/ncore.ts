@@ -101,7 +101,6 @@ export const searchNcore = async (
           });
         }
 
-        if (torrentsOnPage < 50) break;
       } catch {
         continue;
       }
