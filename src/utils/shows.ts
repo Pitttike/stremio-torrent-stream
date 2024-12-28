@@ -13,12 +13,16 @@ export const guessSeasonEpisode = (name: string) => {
     const firstSeason = Number(seasonMatch[0].groups?.season) || 0;
     const lastSeason =
       Number(seasonMatch[seasonMatch.length - 1].groups?.season) || 0;
-    const seasons = [];
-    for (let i = firstSeason; i <= lastSeason; i++) seasons.push(i);
+    const seasons = Array.from(
+      { length: lastSeason - firstSeason + 1 },
+      (_, i) => firstSeason + i
+    );
     return { seasons };
   } else if (seasonMatch[0] || episodeMatch) {
-    const season = Number(seasonMatch[0]?.groups?.season) || undefined;
-    const episode = Number(episodeMatch?.groups?.episode) || undefined;
+    const season = seasonMatch[0]?.groups?.season
+      ? Number(seasonMatch[0].groups.season)
+      : 1;
+    const episode = Number(episodeMatch?.groups?.episode);
     return { season, episode };
   } else {
     const seasonEpisodeMatch = str.match(/(?<season>\d+)x(?<episode>\d+)/);
